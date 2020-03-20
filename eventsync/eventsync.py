@@ -5,6 +5,8 @@ import pyinotify
 import yaml
 import subprocess
 import re
+import signal
+import sys
 
 class SyncEngine:
   def __init__(self,config):
@@ -47,34 +49,15 @@ class MyEventHandler(pyinotify.ProcessEvent):
   def __init__(self, config):
     self.config = config
   
-  def process_IN_ACCESS(self, event):
-    a=10 # print("Event")
-
-  def process_IN_ATTRIB(self, event):
-    a=10 # print("Event")
-
-  def process_IN_CLOSE_NOWRITE(self, event):
-    a=10 # print("Event")
-
   def process_IN_CLOSE_WRITE(self, event):
     a=10 # print("Event")
-    #try: 
-    handler = SyncEngine(self.config)
-    handler.sync()
-    #except:
-    #  print("Issue handling request")
-
-  def process_IN_CREATE(self, event):
-    a=10 # print("Event")
-
-  def process_IN_DELETE(self, event):
-    a=10 # print("Event")
-
-  def process_IN_MODIFY(self, event):
-    a=10 # print("Event")
+    se = SyncEngine(self.config)
+    se.sync()
   
-  def process_IN_OPEN(self, event):
-    a=10 # print("Event")
+# SIGINT handler
+def signal_handler(sig, frame):
+  print('SIGINT, exit ...')
+  sys.exit(0)
 
 # -- Script
 parser = argparse.ArgumentParser(description='esync')
@@ -82,13 +65,16 @@ parser.add_argument('-y','--yaml', help='Some YAML file', required=True)
 args = parser.parse_args()
 
 # watch manager
-#config = "/srv/droppy/files/Pictures/sync.yaml"
 wm = pyinotify.WatchManager()
 wm.add_watch(args.yaml, pyinotify.ALL_EVENTS, rec=True)
 
 # event handler
 eh = MyEventHandler(args.yaml)
 
+# signal handler
+signal.signal(signal.SIGINT, signal_handler)
+
 # notifier
 notifier = pyinotify.Notifier(wm, eh)
 notifier.loop()
+
