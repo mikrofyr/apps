@@ -19,10 +19,10 @@ for item in doc['localhost']:
   bucket = doc['bucket']
   if doc['delete']:
     cmd = "b2 sync --delete --excludeAllSymlinks {} b2://{}{}".format(item,bucket,item)
-  else
+  else:
     cmd = "b2 sync --excludeAllSymlinks {} b2://{}{}".format(item,bucket,item)
   
-  if doc['sync'] 
+  if doc['sync']:
     print("Executing {}".format(cmd))
     subprocess.run(cmd, shell=True)
   else:
