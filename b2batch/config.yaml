@@ -5,3 +5,4 @@ localhost:
  - /root
 bucket: name
 delete: false
+sync: false
