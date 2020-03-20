@@ -1,0 +1,5 @@
+sources:
+  - "ftp://192.168.10.124:8672/device/DCIM/Screenshots/"
+  - "ftp://192.168.10.198:7178/device/DCIM/"
+outdir: /path/to/outdir
+sync: false

@@ -1,0 +1,7 @@
+# LOCALHOST	
+localhost:
+ - /home
+ - /etc/apache
+ - /root
+bucket: name
+delete: false

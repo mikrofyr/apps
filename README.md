@@ -1,1 +1,2 @@
-# apps
+## Apps
+Collection of small apps
